@@ -1,6 +1,6 @@
 'use strict'
 const Hapi = require('@hapi/hapi');
-
+console.dir(Hapi.server)
 const init = async () => {
     const server = Hapi.Server({
         host : 'localhost',
