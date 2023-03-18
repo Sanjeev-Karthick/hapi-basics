@@ -11,7 +11,8 @@ const init = async () => {
         method : 'GET',
         path : '/',
         handler : (request, h)  => {  
-            return `<h1> Hapi Server </h1>`
+            const data = {name : "sanjeev" , server : "Hapi"}
+            return JSON.stringify(data);
         }
     })
 
