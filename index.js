@@ -1,12 +1,19 @@
 'use strict'
 const Hapi = require('@hapi/hapi');
-console.dir(Hapi.server)
 const init = async () => {
     const server = Hapi.Server({
         host : 'localhost',
         port : 4000
     })
 
+    await server.register(
+        {
+            plugin: require('hapi-geo-locate'),
+            options: {
+                enabledByDefault : true
+            }
+        }
+    );
     //Simple route
     server.route([{
         method : 'GET',
@@ -36,7 +43,17 @@ const init = async () => {
             let data = JSON.stringify({version : request.params.version})
             return data
         }
-    }]);
+    },
+    //inserting geo locate plugin
+    {
+        method : 'GET',
+        path : "/location",
+        handler : (request,h)=>{
+            return JSON.stringify({location : request.location})
+        }
+ 
+    }
+]);
     
 
 
