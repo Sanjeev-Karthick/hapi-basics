@@ -7,17 +7,41 @@ const init = async () => {
         port : 4000
     })
 
-    server.route({
+    //Simple route
+    server.route([{
         method : 'GET',
         path : '/',
         handler : (request, h)  => {  
             const data = {name : "sanjeev" , server : "Hapi"}
             return JSON.stringify(data);
         }
-    })
+    },
+    {
+        //Variable parameters and query parameters
+        method : 'GET',
+        path : '/users/{user?}',
+        handler : (request , h) =>{
+            let data = { user : request.params.user , message : `Welcome ${request.params.user}` };
+            if(request.query.preference){
+                data.preference = request.query.preference
+            }
+            return JSON.stringify(data);
+        }
+    },
+    {
+        //Wildcard parameter
+        method: 'GET',
+        path : '/{version*}',
+        handler : (request , h) =>{
+            let data = JSON.stringify({version : request.params.version})
+            return data
+        }
+    }]);
+    
+
 
     await server.start()
-    console.log(`Server started on ${server.info.url}`)
+    console.log(`Server started on ${server.info.uri}`)
 }
 
 
